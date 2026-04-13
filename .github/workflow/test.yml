@@ -1,9 +1,6 @@
 name: Upload to S3
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
   upload:
@@ -24,4 +21,4 @@ jobs:
           aws-region: eu-north-1
 
       - name: Upload file
-        run: aws s3 cp file.txt s3://file-demo-openid/
+        run: aws s3 cp file.txt s3://file-manager-demo2/
