@@ -1,0 +1,27 @@
+name: Upload to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write  
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Connect to AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::263839541315:role/file-demo-openid
+          aws-region: eu-north-1
+
+      - name: Upload file
+        run: aws s3 cp file.txt s3://file-demo-openid/
