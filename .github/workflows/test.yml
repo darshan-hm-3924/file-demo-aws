@@ -1,4 +1,4 @@
-name: Upload to S3
+name: Upload to S3 using open id
 
 on: push
 
@@ -20,5 +20,17 @@ jobs:
           role-to-assume: arn:aws:iam::263839541315:role/file-demo-openid
           aws-region: eu-north-1
 
-      - name: Upload file
-        run: aws s3 cp file.txt s3://file-manager-demo2/
+      - name: Check and Upload File to S3
+        run: |
+          FILE_NAME="file.txt"
+          BUCKET="file-manager-demo2"
+
+          echo "Checking if file exists in S3..."
+
+          if aws s3api head-object --bucket $BUCKET --key $FILE_NAME 2>/dev/null; then
+            echo "❌ File already exists in S3 bucket!"
+            exit 1
+          else
+            echo "✅ File not found. Uploading..."
+            aws s3 cp $FILE_NAME s3://$BUCKET/
+          
