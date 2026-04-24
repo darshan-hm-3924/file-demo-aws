@@ -33,4 +33,4 @@ jobs:
           else
             echo "✅ File not found. Uploading..."
             aws s3 cp $FILE_NAME s3://$BUCKET/
-          
+          fi
